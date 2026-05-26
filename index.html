@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#4A6B45">
+<title>የፀጉር ማደስ ፕሮግራም</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #FDF6EC; min-height: 100vh; display: flex; justify-content: center; }
+.app { width: 100%; max-width: 480px; padding-bottom: 80px; }
+
+.header { background: linear-gradient(135deg, #7C9A6E, #4A6B45); padding: 18px 20px 14px; color: white; text-align: center; border-radius: 0 0 24px 24px; box-shadow: 0 4px 16px rgba(92,127,90,0.3); position: relative; }
+.header h1 { font-size: 19px; font-weight: bold; margin-top: 4px; }
+.header p { font-size: 11px; opacity: 0.88; margin-top: 3px; }
+
+/* OFFLINE BADGE */
+.offline-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.18); border: 1.5px solid rgba(255,255,255,0.5);
+  border-radius: 20px; padding: 4px 12px; margin-top: 8px;
+  font-size: 11px; font-weight: bold; color: white; letter-spacing: 0.3px;
+}
+.offline-dot { width: 7px; height: 7px; border-radius: 50%; background: #A8E6A3; flex-shrink: 0; }
+.offline-dot.no { background: #FFB3B3; animation: blink 1.5s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.content { padding: 14px; }
+.card { background: white; border-radius: 16px; padding: 16px; margin-bottom: 14px; border: 1px solid #EEE; }
+.sec-title { font-size: 15px; color: #3A5A35; margin-bottom: 12px; font-weight: bold; }
+
+.love-card { text-align: center; border: 1px solid #F0D9C0 !important; }
+.love-card p { margin-top: 8px; color: #6B4F3A; font-size: 13px; line-height: 1.7; }
+
+.habit-row { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 10px; margin-bottom: 6px; cursor: pointer; border: 1px solid #EEE; background: #FAFAFA; }
+.habit-row.done { background: #E8F0E4; border-color: #B8D4B0; }
+.h-check { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #CCC; display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: white; font-size: 11px; color: white; }
+.h-check.done { background: #7C9A6E; border-color: #7C9A6E; }
+.h-text { font-size: 13px; color: #444; }
+.h-text.done { text-decoration: line-through; color: #5A7A54; opacity: 0.7; }
+.badge { background: #EFEFEF; color: #777; border-radius: 20px; padding: 2px 10px; font-size: 12px; font-weight: bold; }
+.badge.ok { background: #7C9A6E; color: white; }
+.row-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.alldone { text-align: center; margin-top: 8px; font-size: 14px; color: #7C9A6E; font-weight: bold; }
+
+.m-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px; margin-bottom: 6px; cursor: pointer; }
+.m-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.m-tab { flex: 1; padding: 8px 4px; border-radius: 10px; border: 2px solid #DDD; background: white; color: #666; cursor: pointer; font-size: 11px; font-weight: bold; min-width: 50px; }
+.m-hdr { border-radius: 16px; padding: 14px; margin-bottom: 14px; text-align: center; }
+.m-hdr h2 { font-size: 16px; margin: 5px 0 2px; }
+.m-hdr p { font-size: 12px; color: #666; }
+.m-note { background: #FFF8E8; border: 1px solid #F0D870; border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; font-size: 12px; color: #7A5A00; }
+
+.t-card { background: white; border-radius: 14px; margin-bottom: 10px; border: 1px solid #EEE; overflow: hidden; }
+.t-hdr { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; }
+.t-name { font-weight: bold; color: #333; font-size: 13px; }
+.t-day { font-size: 12px; color: #888; margin-top: 1px; }
+.t-chk { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #CCC; display: flex; align-items: center; justify-content: center; cursor: pointer; background: white; font-size: 12px; color: white; margin-right: 4px; flex-shrink: 0; }
+.t-body { padding: 0 14px 14px; border-top: 1px solid #F5F5F5; }
+.step-lbl { font-size: 12px; font-weight: bold; color: #555; margin: 10px 0 8px; }
+.step-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.step-n { width: 20px; height: 20px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; flex-shrink: 0; }
+.step-t { font-size: 13px; color: #444; line-height: 1.5; }
+.done-btn { margin-top: 10px; padding: 9px; border-radius: 8px; text-align: center; cursor: pointer; font-size: 13px; font-weight: bold; border: none; width: 100%; }
+
+.f-row { display: flex; align-items: flex-start; gap: 10px; padding: 9px 12px; border-radius: 10px; margin-bottom: 6px; }
+.f-name { font-weight: bold; font-size: 13px; }
+.f-why { font-size: 12px; color: #666; margin-top: 2px; }
+
+.tl-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.tl-dot { display: flex; flex-direction: column; align-items: center; }
+.tl-circ { width: 32px; height: 32px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 11px; flex-shrink: 0; }
+.tl-line { width: 2px; height: 16px; background: #DDD; margin-top: 3px; }
+
+.moti-card { background: linear-gradient(135deg, #7C9A6E, #4A6B45); border-radius: 16px; padding: 18px; color: white; text-align: center; margin-bottom: 14px; }
+.moti-card h3 { margin: 6px 0; font-size: 15px; }
+.moti-card p { font-size: 13px; line-height: 1.7; opacity: 0.95; }
+
+.tip-row { display: flex; gap: 10px; padding: 9px 12px; border-radius: 10px; margin-bottom: 6px; background: #F8FBF7; border: 1px solid #E0EAD8; }
+.tip-t { font-size: 13px; color: #444; line-height: 1.5; }
+
+.tab-bar { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: white; border-top: 1px solid #E8E8E8; display: flex; box-shadow: 0 -3px 16px rgba(0,0,0,0.07); z-index: 100; }
+.tab-btn { flex: 1; padding: 10px 4px 8px; background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.t-icon { font-size: 19px; }
+.t-lbl { font-size: 10px; color: #AAA; }
+.t-lbl.active { color: #7C9A6E; font-weight: bold; }
+.t-ind { width: 16px; height: 3px; background: #7C9A6E; border-radius: 2px; }
+.hidden { display: none; }
+
+/* OFFLINE BANNER */
+.offline-banner {
+  background: #FFF3CD; border: 1px solid #FFCA28;
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7A5A00;
+}
+.online-banner {
+  background: #E8F5E9; border: 1px solid #81C784;
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px; font-size: 13px; color: #2D5A27;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div style="font-size:34px">🌿</div>
+    <h1>የእናቴ ፀጉር ማደስ</h1>
+    <p>4 ወር የተፈጥሮ ፀጉር ዕድገት ፕሮግራም</p>
+    <div style="display:flex;justify-content:center;margin-top:6px">
+      <div class="offline-badge">
+        <div class="offline-dot" id="net-dot"></div>
+        <span id="net-label">ኦፍላይን ሁነታ</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- OFFLINE/ONLINE STATUS BANNER -->
+    <div id="status-banner" class="offline-banner">
+      <span style="font-size:18px">📴</span>
+      <span id="banner-text">ይህ ፕሮግራም ያለ ኢንተርኔት ሙሉ በሙሉ ይሰራል። ሁሉም ውሂብ በዚህ መሣሪያ ላይ ተቀምጧል።</span>
+    </div>
+
+    <!-- HOME -->
+    <div id="tab-home">
+      <div class="card love-card">
+        <div style="font-size:28px">🥹💕</div>
+        <p>ፀጉርሽ አንድ ጊዜ ቆንጆ ነበር — <strong>እንደገና ያምርብሻል!</strong> ትዕግስት ይኑርሽ፣ ቀጠሮዎቹን ይጠብቁ። ፎሊከሎቹ ገና አሉ — ፍቅር ብቻ ያስፈልጋቸዋል። 🙏</p>
+      </div>
+
+      <div class="card">
+        <div class="row-hdr">
+          <div class="sec-title" style="margin-bottom:0">📋 ዛሬ የሚደረጉ ልምዶች</div>
+          <div class="badge" id="h-badge">0/8</div>
+        </div>
+        <div id="habits-list"></div>
+        <div class="alldone hidden" id="alldone">🎉 ሁሉም ልምዶች ተጠናቅቀዋል! አስደናቂ!</div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">🛢️ የሚጠቀሙባቸው ምርቶች</div>
+        <div id="products-list"></div>
+      </div>
+
+      <div class="card">
+        <div class="sec-title">🗓 4 ወር ጉዞ</div>
+        <div id="month-overview"></div>
+      </div>
+    </div>
+
+    <!-- PLAN -->
+    <div id="tab-plan" class="hidden">
+      <div class="m-tabs" id="m-tabs"></div>
+      <div id="m-detail"></div>
+    </div>
+
+    <!-- FOOD -->
+    <div id="tab-food" class="hidden">
+      <div class="card">
+        <div class="sec-title">✅ ፀጉርን የሚያሳድጉ ምግቦች</div>
+        <div id="foods-eat"></div>
+      </div>
+      <div class="card" style="border-color:#FAE0E0">
+        <div class="sec-title" style="color:#A83A3A">❌ ይወሰዱ ያሉ ምግቦች</div>
+        <div id="foods-avoid"></div>
+      </div>
+      <div class="card" style="border-color:#F0E0B0">
+        <div class="sec-title" style="color:#7A5A00">🌅 የጠዋት ልምድ</div>
+        <div id="morning-r"></div>
+      </div>
+    </div>
+
+    <!-- PROGRESS -->
+    <div id="tab-progress" class="hidden">
+      <div class="card">
+        <div class="sec-title">📈 የሚጠበቀው ውጤት</div>
+        <div id="timeline"></div>
+      </div>
+      <div class="moti-card">
+        <div style="font-size:30px">🌺</div>
+        <h3>ለእናቴ መልእክት</h3>
+        <p>ፀጉሬ ብዙ ነገር አልፏል። ሕክምናው ለራስሽ የምታደርጊው ፍቅር ነው። ፎሊከሎቹ ያኔ ያዩትን ያስታውሳሉ — እንክብካቤ ሲያገኙ ይነቃሉ። ቆንጆ እንደሆንሽ ዘወትር አስቢ። 💕</p>
+      </div>
+      <div class="card">
+        <div class="sec-title">💡 አስፈላጊ ምክሮች</div>
+        <div id="tips-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn" onclick="switchTab('home')">
+      <span class="t-icon">🏠</span>
+      <span class="t-lbl active" id="lbl-home">ቤት</span>
+      <div class="t-ind" id="ind-home"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('plan')">
+      <span class="t-icon">📅</span>
+      <span class="t-lbl" id="lbl-plan">እቅድ</span>
+      <div class="t-ind hidden" id="ind-plan"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('food')">
+      <span class="t-icon">🥗</span>
+      <span class="t-lbl" id="lbl-food">ምግብ</span>
+      <div class="t-ind hidden" id="ind-food"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('progress')">
+      <span class="t-icon">📈</span>
+      <span class="t-lbl" id="lbl-progress">እድገት</span>
+      <div class="t-ind hidden" id="ind-progress"></div>
+    </button>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+var PRODUCTS = [
+  { name: "Alecrim Rosemary Oil", desc: "100% ንጹህ ሮዝማሪ ዘይት — ለወፍራም እና ረዥም ፀጉር", emoji: "🟤" },
+  { name: "Leaf Hair Growth Oil", desc: "Benaturalbyleaf — ፀጉር ዕድገት ዘይት፣ አስፈላጊ ማዕድናት ያለው", emoji: "🟢" },
+  { name: "Valera Rosemary Mint", desc: "ሮዝማሪ + ሚንት + ባዮቲን — ለፀጉር ማጠናከሪያ", emoji: "🟩" },
+  { name: "ኮኮናት ዘይት", desc: "100% ንጹህ — ለጥልቅ ማንጠባጠቢያ", emoji: "🥥" },
+  { name: "ቅቤ ዘይት (Castor Oil)", desc: "ፀጉር ዕድገትን ያፋጥናል፣ ወፍራምነትን ይጨምራል", emoji: "🫙" },
+  { name: "ጥቁር ዘር (Black Seed)", desc: "ኃይለኛ ተፈጥሮአዊ ሕክምና — ፀጉር ጉድለትን ይፈውሳል", emoji: "🖤" }
+];
+
+var MONTHS = [
+  { id:1, title:"ወር 1", sub:"ማጽዳት እና ማንቃት", color:"#7C9A6E", light:"#E8F0E4", emoji:"🌱",
+    goal:"ራስ ቆዳን ማጽዳት፣ ቆሻሻ ማስወገድ፣ ተኝቶ ያለ ፎሊከሎቻ ማንቃት",
+    note:"ተመሳሳይ ሕክምናዎች 4 ሳምንት ሙሉ ይደገማሉ — ቀጠሮ ዋናው ቁልፍ ነው!",
+    treatments:[
+      { day:"ሰኞ", name:"Alecrim ሮዝማሪ + ቅቤ ዘይት ማሳጅ", emoji:"🫙", steps:[
+        "2 ማንኪያ ቅቤ ዘይት + 10 ጠብታ Alecrim ሮዝማሪ ዘይት ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "15 ደቂቃ ቀስ ብሎ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ቀለል ያለ ሻምፖ ይታጠቡ",
+        "ፀጉርን ለዕድገት ያነሳሳዋል!"
+      ]},
+      { day:"ረቡዕ", name:"ጥቁር ዘር + ኮኮናት ዘይት ጭምብል", emoji:"🖤", steps:[
+        "ጥቁር ዘሩን ቀጭን ዱቄት ያድርጉ",
+        "1 ማንኪያ ጥቁር ዘር ዱቄት + 2 ማንኪያ ኮኮናት ዘይት ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "1 ሰዓት ይተዉ",
+        "ሙሉ በሙሉ ይታጠቡ",
+        "ጥቁር ዘር ፀጉር ማሳደግን ሳይንሳዊ ሆኖ ተረጋግጧል!"
+      ]},
+      { day:"አርብ", name:"Leaf ፀጉር ዕድገት ዘይት ሕክምና", emoji:"🟢", steps:[
+        "Leaf ዘይት ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "15 ደቂቃ ቀስ ብሎ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ቀለል ያለ ሻምፖ ይታጠቡ",
+        "ማዕድናቱ ፎሊከሎቹን ይመግባቸዋል"
+      ]},
+      { day:"እሁድ", name:"የዕረፍት ቀን — ቀላል ኮኮናት ዘይት ብቻ", emoji:"😴", steps:[
+        "ጥቂት ኮኮናት ዘይት ብቻ ወደ ራስ ቆዳ ቀስ ብሎ ይቀቡ",
+        "ምንም ከባድ ሕክምና አያስፈልግም",
+        "ራስ ቆዳ ያርፍ፣ ይተንፍስ"
+      ]}
+    ]
+  },
+  { id:2, title:"ወር 2", sub:"ማጎልበት እና ማጠንከር", color:"#B07D4A", light:"#F5EDE0", emoji:"🌿",
+    goal:"ፎሊከሎቹን ጥልቅ ምግብ ይስጡ፣ አዲስ ዕድገትን ያጠንክሩ",
+    note:"የወር 1 ሕክምናዎችን ቀጥሉ + እነዚህን አዲስ ሕክምናዎች ጨምሩ",
+    treatments:[
+      { day:"ሰኞ", name:"Valera ሮዝማሪ ሚንት ሌሊት ሕክምና", emoji:"🟩", steps:[
+        "Valera ዘይት ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "10 ደቂቃ ቀስ ብሎ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ቀለል ያለ ሻምፖ ይታጠቡ",
+        "ባዮቲን + ሚንት + ሮዝማሪ — ኃይለኛ ጥምር!"
+      ]},
+      { day:"ረቡዕ", name:"እንቁላል + ኮኮናት ዘይት ጭምብል", emoji:"🥚", steps:[
+        "2 እንቁላል + 2 ማንኪያ ኮኮናት ዘይት + 1 ማንኪያ ማር ቀላቅሉ",
+        "ወደ ራስ ቆዳ እና ፀጉር ይቀቡ",
+        "45 ደቂቃ ይተዉ",
+        "ቀዝቃዛ ውሃ ብቻ ይጠቀሙ — ሞቃት ውሃ አይጠቀሙ!",
+        "ፕሮቲን + ባዮቲን ፀጉርን ይገነባሉ"
+      ]},
+      { day:"አርብ", name:"Alecrim + ቅቤ + Leaf ዘይቶች ጥምር", emoji:"✨", steps:[
+        "1 ማንኪያ ቅቤ ዘይት + 10 ጠብታ Alecrim + 10 ጠብታ Leaf ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ቀለል ያለ ሻምፖ ይታጠቡ",
+        "3 ዘይቶቹ አንድ ላይ ሲሰሩ ኃይላቸው ሦስት እጥፍ ይሆናል!"
+      ]},
+      { day:"እሁድ", name:"ሞቅ ያለ ፎጣ ሕክምና + Valera", emoji:"♨️", steps:[
+        "ፎጣ ሞቅ ባለ ውሃ ይጥሉ ከዚያ ጠምጥሙ",
+        "20 ደቂቃ ዙሪያ ጭንቅላቱን ይጠቀለሉ",
+        "ፎጣ ካወጡ በኋላ Valera ዘይት ይቀቡ",
+        "ቀዳዳዎቹ ተከፍተው ዘይቱን ይቀበሉታል"
+      ]}
+    ]
+  },
+  { id:3, title:"ወር 3", sub:"ጠንካራ ዕድገት", color:"#5B7FA6", light:"#E0EAF5", emoji:"🌸",
+    goal:"አዲስ ዕድገትን ማፋጠን፣ ርዝመቱን መጠበቅ፣ ፀጉርን ማወፈር",
+    note:"ዕለታዊ ማሳጅ ቀጥሉ — ቢያንስ 10 ደቂቃ ያለ ዘይትም ቢሆን",
+    treatments:[
+      { day:"ሰኞ", name:"ጥቁር ዘር + ቅቤ ዘይት ጠንካራ ሕክምና", emoji:"🖤", steps:[
+        "2 ማንኪያ ቅቤ ዘይት + 1 ማንኪያ ጥቁር ዘር ዘይት ወይም ዱቄት ቀላቅሉ",
+        "ሙቀቱ ቀስ ይባልለት — ሞቅ ብቻ",
+        "ወደ ራስ ቆዳ ቀጥታ ቀቡ",
+        "20 ደቂቃ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ"
+      ]},
+      { day:"ረቡዕ", name:"Alecrim + Leaf + ኮኮናት ዘይቶች ጥምር", emoji:"💫", steps:[
+        "2 ማንኪያ ኮኮናት ዘይት + 10 ጠብታ Alecrim + 10 ጠብታ Leaf ቀላቅሉ",
+        "ቀስ ብሎ ያሙቁ — ሞቅ ብቻ",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "20 ደቂቃ ማሳጅ",
+        "ሌሊቱን ሙሉ ይተዉ"
+      ]},
+      { day:"አርብ", name:"Valera ሌሊት ሕክምና", emoji:"🟩", steps:[
+        "Valera ዘይት ወደ ራስ ቆዳ ቀቡ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ",
+        "ቀላል ዘይት ቀቡ ከዚያ"
+      ]},
+      { day:"እሁድ", name:"ፕሮቲን ጭምብል — ፀጉር ማጠናከሪያ", emoji:"💪", steps:[
+        "2 እንቁላል + 1 ማንኪያ እርጎ + 1 ማንኪያ ኮኮናት ዘይት ቀላቅሉ",
+        "ወደ ራስ ቆዳ እና ፀጉር ቀቡ",
+        "30 ደቂቃ ይተዉ",
+        "ቀዝቃዛ ውሃ ብቻ ይጥቀሙ — ሞቅ አይጥቀሙ!",
+        "አዲሱን ሳሳ ፀጉር ይጠብቃል"
+      ]}
+    ]
+  },
+  { id:4, title:"ወር 4", sub:"ጠብቆ ማቆየት + ማወፈር", color:"#9B6B9B", light:"#F0E4F0", emoji:"💜",
+    goal:"ውጤቱን ማጠናከር፣ ፀጉርን ማወፈር፣ ዳግም ፀጉር መርገፍን መከላከል",
+    note:"አሁን ዕድገቱ ይታያል! ቀጥሉ — ፍሬው እየደረሰ ነው 🎉",
+    treatments:[
+      { day:"ሰኞ", name:"Alecrim + Leaf ዕለታዊ ጥምር ሕክምና", emoji:"🌿", steps:[
+        "10 ጠብታ Alecrim + 10 ጠብታ Leaf ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "15 ደቂቃ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ቀለል ያለ ሻምፖ ይታጠቡ"
+      ]},
+      { day:"ረቡዕ", name:"ቅቤ ዘይት + Valera ጠልቅ ሕክምና", emoji:"🫙", steps:[
+        "2 ማንኪያ ቅቤ ዘይት + Valera ቀላቅሉ",
+        "ሞቅ ባለ ፎጣ ጥሩ ጭምብሉ ዙሪያ ለ20 ደቂቃ",
+        "ፎጣ ካወጡ 30 ደቂቃ ሌሎት ይቀርቡ",
+        "ጠዋት ሻምፖ ይታጠቡ"
+      ]},
+      { day:"አርብ", name:"ጥቁር ዘር + ሁሉም ዘይቶች ጠቅላላ ሕክምና", emoji:"🖤", steps:[
+        "1 ማንኪያ ጥቁር ዘር ዱቄት + ቅቤ ዘይት + Alecrim + Leaf ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "20 ደቂቃ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ይህ ፕሮግራሙ ውስጥ ኃይለኛው ሕክምና ነው!"
+      ]},
+      { day:"እሁድ", name:"ሩዝ ውሃ ሕክምና + ቅቤ ዘይት", emoji:"🍚", steps:[
+        "ሩዙን 24 ሰዓት ውሃ ውስጥ ያጥቡ",
+        "ሩዙን ነስሰው ውሃውን ይያዙ",
+        "ፀጉሩን ሻምፖ ካጠቡ በኋላ ሩዝ ውሃ ያፍሱ",
+        "15-20 ደቂቃ ይተዉ ከዚያ ይቅቡ",
+        "ቅቤ ዘይት ቀቡ ከዚያ",
+        "ፀጉርን ያጠናክራል እና ያወፍራል!"
+      ]}
+    ]
+  }
+];
+
+var HABITS = [
+  { id:"water", emoji:"💧", text:"8-10 ብርጭቆ ውሃ ይጠጡ" },
+  { id:"massage", emoji:"🙌", text:"10 ደቂቃ የራስ ቆዳ ማሳጅ" },
+  { id:"sleep", emoji:"😴", text:"7-8 ሰዓት በሳቲን ትራስ ሽፋን ይተኙ" },
+  { id:"exercise", emoji:"🚶", text:"ቀላል ስፖርት — ደም ዝውውር ለፀጉር" },
+  { id:"stress", emoji:"🧘", text:"ጭንቀትን ይቀንሱ — ፈገግ ይበሉ" },
+  { id:"lemon", emoji:"🍋", text:"ጠዋት ሞቅ ያለ ሎሚ ውሃ ይጠጡ" },
+  { id:"supps", emoji:"💊", text:"ባዮቲን + ቫይታሚን ዲ + ብረት ጡባዊ" },
+  { id:"parsley", emoji:"🌿", text:"ፓርስሊ ሻይ (ሲናሞን ጨምሩ) — ሳምንት 3 ጊዜ" }
+];
+
+var FOODS_EAT = [
+  { name:"እንቁላል", why:"ባዮቲን እና ፕሮቲን — ፀጉርን ይገነባሉ", emoji:"🥚" },
+  { name:"ስፒናች", why:"ብረት እና ፎሌት — ፎሊከሎቹን ይመግባቸዋል", emoji:"🥬" },
+  { name:"ዓሳ (ሳልሞን)", why:"ኦሜጋ-3 — ለራስ ቆዳ ጤና", emoji:"🐟" },
+  { name:"ምስር", why:"ፕሮቲን እና ብረት", emoji:"🫘" },
+  { name:"ድንቹ", why:"ቫይታሚን ኤ — ዘይት ምርትን ይጨምራል", emoji:"🍠" },
+  { name:"ለውዝ", why:"ዚንክ እና ቫይታሚን ኢ", emoji:"🥜" },
+  { name:"አቮካዶ", why:"ጤናማ ቅባት እና ቫይታሚን ኢ", emoji:"🥑" },
+  { name:"ቤሪ", why:"ቫይታሚን ሲ — ኮላጅን ምርት", emoji:"🍓" },
+  { name:"ካሮት", why:"ቤታ ካሮቲን — ለራስ ቆዳ", emoji:"🥕" }
+];
+
+var FOODS_AVOID = [
+  { name:"ስኳር እና ጣፋጭ", emoji:"🍬", why:"ፀጉር ፎሊከሎቹን ያዳክማሉ" },
+  { name:"ፈሰሰ እና ጮማ ምግብ", emoji:"🍟", why:"ራስ ቆዳ ቆሻሻ ያጠናክራሉ" },
+  { name:"አልኮል", emoji:"🚫", why:"ፀጉርን ያደርቃሉ" },
+  { name:"ብዙ ጨው", emoji:"🧂", why:"ፀጉር ዕድገትን ይቀንሳሉ" },
+  { name:"ድንገተኛ ዳይቶ", emoji:"⚠️", why:"ፕሮቲን እጥረት — ፀጉር ያረግፋሉ" }
+];
+
+var MORNING_R = [
+  { emoji:"🍋", text:"ሞቅ ያለ ሎሚ ውሃ — ሆድ ሲጠራ" },
+  { emoji:"🌿", text:"ፓርስሊ ሻይ + ሲናሞን (ሳምንት 3 ጊዜ)" },
+  { emoji:"💊", text:"ባዮቲን (2500-5000 mcg)" },
+  { emoji:"☀️", text:"ቫይታሚን ዲ ጡባዊ" },
+  { emoji:"🩸", text:"ብረት ጡባዊ (የሚያስፈልግ ከሆነ)" }
+];
+
+var TIMELINE = [
+  { period:"ሳምንት 2-3", result:"ራስ ቆዳ ያምርብሻል፣ ደርቆ ይቀናል" },
+  { period:"ወር 1", result:"ፀጉር መርገፍ ቀንሷል" },
+  { period:"ወር 2", result:"ትናንሽ አዲስ ፀጉሮች ይወጣሉ" },
+  { period:"ወር 3", result:"ዕድገት ይታያል፣ ወፍራምነት ይጨምራል" },
+  { period:"ወር 4", result:"ጉልህ ሙሉ ፀጉር ይታያል" }
+];
+
+var TIPS = [
+  { emoji:"🧘", text:"ጭንቀት ፀጉር ያረግፋል — ሰላምና ደስታ ይጠብቁ" },
+  { emoji:"🌙", text:"ሳቲን ትራስ ሽፋን ይጠቀሙ — ፀጉር ሳይሰበር" },
+  { emoji:"💆", text:"ዕለታዊ ማሳጅ ደም ዝውውርን ያሻሻላል" },
+  { emoji:"🚫", text:"ጠባብ ጸጉር አቀጣጠር አይጠቀሙ — ራስ ቆዳ ይተንፍስ" },
+  { emoji:"⏳", text:"ትዕግስት ይኑሩ — ውጤቱ ይመጣል!" }
+];
+
+// ===== STATE =====
+var habitsState = JSON.parse(localStorage.getItem('hair_habits') || '{}');
+var treatState  = JSON.parse(localStorage.getItem('hair_treats') || '{}');
+
+var curTab   = 'home';
+var curMonth = 1;
+var expanded = null;
+
+// ===== SAVE =====
+function saveHabits() { localStorage.setItem('hair_habits', JSON.stringify(habitsState)); }
+function saveTreats() { localStorage.setItem('hair_treats', JSON.stringify(treatState)); }
+
+// ===== OFFLINE STATUS =====
+function updateNetworkStatus() {
+  var online = navigator.onLine;
+  var dot    = document.getElementById('net-dot');
+  var label  = document.getElementById('net-label');
+  var banner = document.getElementById('status-banner');
+  var btext  = document.getElementById('banner-text');
+
+  if (online) {
+    dot.classList.remove('no');
+    label.textContent = 'ኦንላይን';
+    banner.className = 'online-banner';
+    btext.textContent = '✅ ኢንተርኔት አለ — ነገር ግን ፕሮግራሙ ያለ ኢንተርኔትም ሙሉ በሙሉ ይሰራል።';
+  } else {
+    dot.classList.add('no');
+    label.textContent = 'ኦፍላይን';
+    banner.className = 'offline-banner';
+    btext.textContent = '📴 ኢንተርኔት የለም — ምንም ችግር የለም! ሁሉም ውሂብ በዚህ መሣሪያ ላይ ተቀምጧል።';
+  }
+}
+window.addEventListener('online',  updateNetworkStatus);
+window.addEventListener('offline', updateNetworkStatus);
+updateNetworkStatus();
+
+// ===== TAB =====
+function switchTab(t) {
+  ['home','plan','food','progress'].forEach(function(id) {
+    document.getElementById('tab-'+id).classList.toggle('hidden', id !== t);
+    document.getElementById('lbl-'+id).classList.toggle('active', id === t);
+    document.getElementById('ind-'+id).classList.toggle('hidden', id !== t);
+  });
+  curTab = t;
+}
+
+// ===== HABITS =====
+function toggleHabit(id) {
+  habitsState[id] = !habitsState[id];
+  saveHabits();
+  renderHabits();
+}
+function renderHabits() {
+  var done  = HABITS.filter(function(h) { return habitsState[h.id]; }).length;
+  var badge = document.getElementById('h-badge');
+  badge.textContent = done + '/' + HABITS.length;
+  badge.className   = 'badge' + (done === HABITS.length ? ' ok' : '');
+  document.getElementById('habits-list').innerHTML = HABITS.map(function(h) {
+    var d = habitsState[h.id];
+    return '<div class="habit-row'+(d?' done':'')+'" onclick="toggleHabit(\''+h.id+'\')">'+
+      '<div class="h-check'+(d?' done':'')+'">'+( d?'✓':'' )+'</div>'+
+      '<span style="font-size:16px">'+h.emoji+'</span>'+
+      '<span class="h-text'+(d?' done':'')+'">'+h.text+'</span>'+
+    '</div>';
+  }).join('');
+  document.getElementById('alldone').classList.toggle('hidden', done !== HABITS.length);
+}
+
+// ===== PRODUCTS =====
+function renderProducts() {
+  document.getElementById('products-list').innerHTML = PRODUCTS.map(function(p) {
+    return '<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 12px;border-radius:10px;margin-bottom:6px;background:#F8FBF7;border:1px solid #E0EAD8">'+
+      '<span style="font-size:20px;flex-shrink:0">'+p.emoji+'</span>'+
+      '<div><div style="font-weight:bold;font-size:13px;color:#2D5A27">'+p.name+'</div>'+
+      '<div style="font-size:12px;color:#666;margin-top:2px">'+p.desc+'</div></div>'+
+    '</div>';
+  }).join('');
+}
+
+// ===== MONTH OVERVIEW =====
+function renderMonthOverview() {
+  document.getElementById('month-overview').innerHTML = MONTHS.map(function(m) {
+    return '<div class="m-row" style="background:'+m.light+';border:1px solid '+m.color+'30" onclick="switchTab(\'plan\');selectMonth('+m.id+')">'+
+      '<span style="font-size:22px">'+m.emoji+'</span>'+
+      '<div style="flex:1">'+
+        '<div style="font-weight:bold;color:'+m.color+';font-size:13px">'+m.title+' — '+m.sub+'</div>'+
+        '<div style="font-size:11px;color:#777;margin-top:2px">'+m.goal+'</div>'+
+      '</div>'+
+      '<span style="color:'+m.color+';font-size:18px;margin-left:auto">›</span>'+
+    '</div>';
+  }).join('');
+}
+
+// ===== PLAN =====
+function selectMonth(id) { curMonth = id; renderMonthTabs(); renderMonthDetail(); }
+function renderMonthTabs() {
+  document.getElementById('m-tabs').innerHTML = MONTHS.map(function(m) {
+    var a = m.id === curMonth;
+    return '<button class="m-tab" style="border-color:'+(a?m.color:'#DDD')+';background:'+(a?m.color:'white')+';color:'+(a?'white':'#666')+'" onclick="selectMonth('+m.id+')">'+m.emoji+' ወር'+m.id+'</button>';
+  }).join('');
+}
+function toggleTreat(key) { treatState[key] = !treatState[key]; saveTreats(); renderMonthDetail(); }
+function toggleExp(key)   { expanded = expanded === key ? null : key; renderMonthDetail(); }
+function renderMonthDetail() {
+  var m    = MONTHS[curMonth-1];
+  var html = '<div class="m-hdr" style="background:'+m.light+';border:1px solid '+m.color+'40">'+
+    '<div style="font-size:28px">'+m.emoji+'</div>'+
+    '<h2 style="color:'+m.color+'">'+m.title+' — '+m.sub+'</h2>'+
+    '<p>🎯 '+m.goal+'</p>'+
+    '<p style="margin-top:6px;font-size:12px;color:'+m.color+';font-weight:bold">📌 '+m.note+'</p>'+
+  '</div>';
+  html += '<div class="m-note">🔁 <strong>ሕክምናዎቹ በወሩ ሙሉ ይደገማሉ</strong> — ቀጠሮ ነው ፀጉርን የሚፈውሰው!</div>';
+  m.treatments.forEach(function(t, idx) {
+    var key    = 'm'+m.id+'_t'+idx;
+    var isOpen = expanded === key;
+    var isDone = treatState[key];
+    html += '<div class="t-card" style="border-color:'+(isDone?m.color:'#EEE')+'">'+
+      '<div class="t-hdr" onclick="toggleExp(\''+key+'\')">'+
+        '<span style="font-size:22px">'+t.emoji+'</span>'+
+        '<div style="flex:1">'+
+          '<div class="t-name">'+t.name+'</div>'+
+          '<div class="t-day">📅 '+t.day+'</div>'+
+        '</div>'+
+        '<div class="t-chk" style="background:'+(isDone?m.color:'white')+';border-color:'+(isDone?m.color:'#CCC')+'" onclick="event.stopPropagation();toggleTreat(\''+key+'\')">'+( isDone?'✓':'' )+'</div>'+
+        '<span style="color:#CCC;font-size:14px">'+(isOpen?'▲':'▼')+'</span>'+
+      '</div>';
+    if (isOpen) {
+      html += '<div class="t-body"><div class="step-lbl">ደረጃዎች፡</div>';
+      t.steps.forEach(function(s, si) {
+        html += '<div class="step-row">'+
+          '<div class="step-n" style="background:'+m.color+'">'+(si+1)+'</div>'+
+          '<span class="step-t">'+s+'</span>'+
+        '</div>';
+      });
+      html += '<button class="done-btn" style="background:'+(isDone?'#E8F0E4':m.light)+';border:1px solid '+m.color+'50;color:'+m.color+'" onclick="toggleTreat(\''+key+'\')">'+
+        (isDone?'✓ ተጠናቅቋል!':'ተጠናቅቋል ምልክት ያድርጉ')+
+      '</button></div>';
+    }
+    html += '</div>';
+  });
+  document.getElementById('m-detail').innerHTML = html;
+}
+
+// ===== FOOD =====
+function renderFood() {
+  document.getElementById('foods-eat').innerHTML = FOODS_EAT.map(function(f) {
+    return '<div class="f-row" style="background:#F5FBF3;border:1px solid #D4EAD0">'+
+      '<span style="font-size:20px;flex-shrink:0">'+f.emoji+'</span>'+
+      '<div><div class="f-name" style="color:#2D5A27">'+f.name+'</div><div class="f-why">'+f.why+'</div></div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('foods-avoid').innerHTML = FOODS_AVOID.map(function(f) {
+    return '<div class="f-row" style="background:#FDF2F2;border:1px solid #F5C6C6">'+
+      '<span style="font-size:20px;flex-shrink:0">'+f.emoji+'</span>'+
+      '<div><div class="f-name" style="color:#A83A3A">'+f.name+'</div><div class="f-why">'+f.why+'</div></div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('morning-r').innerHTML = MORNING_R.map(function(item) {
+    return '<div class="f-row" style="background:#FFFBF0;border:1px solid #F0E0B0">'+
+      '<span style="font-size:20px;flex-shrink:0">'+item.emoji+'</span>'+
+      '<span style="font-size:13px;color:#5A4A1A">'+item.text+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+// ===== PROGRESS =====
+function renderProgress() {
+  var colors = ['#7C9A6E','#8B9A5E','#9A8B5E','#8B7A5E','#7A5E8B'];
+  document.getElementById('timeline').innerHTML = TIMELINE.map(function(t,i) {
+    return '<div class="tl-item">'+
+      '<div class="tl-dot">'+
+        '<div class="tl-circ" style="background:'+colors[i]+'">'+( i+1 )+'</div>'+
+        (i<TIMELINE.length-1?'<div class="tl-line"></div>':'')+
+      '</div>'+
+      '<div style="padding-top:5px">'+
+        '<div style="font-weight:bold;font-size:13px;color:#333">'+t.period+'</div>'+
+        '<div style="font-size:13px;color:#666;margin-top:2px">'+t.result+'</div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('tips-list').innerHTML = TIPS.map(function(tip) {
+    return '<div class="tip-row"><span style="font-size:18px;flex-shrink:0">'+tip.emoji+'</span><span class="tip-t">'+tip.text+'</span></div>';
+  }).join('');
+}
+
+// Reset habits at midnight
+function checkMidnight() {
+  var now   = new Date();
+  var today = now.toDateString();
+  var lastReset = localStorage.getItem('hair_last_reset');
+  if (now.getHours() === 0 && now.getMinutes() === 0 && lastReset !== today) {
+    habitsState = {};
+    saveHabits();
+    localStorage.setItem('hair_last_reset', today);
+    renderHabits();
+  }
+}
+
+// ===== INIT =====
+renderHabits();
+renderProducts();
+renderMonthOverview();
+renderMonthTabs();
+renderMonthDetail();
+renderFood();
+renderProgress();
+
+setInterval(checkMidnight, 60000);
+</script>
+</body>
+</html>
