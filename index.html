@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+
+<html lang="am">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title> የፀጉር ዕቅድ</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --cream: #FDF6EC;
+  --warm: #F5EDD8;
+  --green: #4A7C59;
+  --green2: #2D5A3D;
+  --gold: #C4973A;
+  --rose: #C4766A;
+  --soft: #8BA888;
+  --text: #2C2C2C;
+  --muted: #888;
+  --white: #FFFFFF;
+  --card: rgba(255,255,255,0.92);
+  --border: rgba(74,124,89,0.15);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #FDF6EC;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(74,124,89,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(196,151,58,0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(196,118,106,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+.app { width: 100%; max-width: 480px; padding-bottom: 90px; position: relative; z-index: 1; }
+
+/* HEADER */
+.header {
+background: linear-gradient(160deg, #2D5A3D 0%, #4A7C59 60%, #5A9A6E 100%);
+padding: 24px 16px 28px;
+color: #FFFFFF !important;
+text-align: center;
+border-radius: 0 0 32px 32px;
+position: relative;
+box-shadow: 0 8px 32px rgba(45,90,61,0.3);
+overflow: hidden;
+}
+.header::before {
+content: ‘’;
+position: absolute;
+top: -40px; right: -40px;
+width: 140px; height: 140px;
+border-radius: 50%;
+background: rgba(255,255,255,0.06);
+}
+.header::after {
+content: ‘’;
+position: absolute;
+bottom: -20px; left: -20px;
+width: 100px; height: 100px;
+border-radius: 50%;
+background: rgba(196,151,58,0.12);
+}
+.header-emoji { font-size: 36px; margin-bottom: 6px; display: block; }
+.header h1 {
+font-family: ‘Playfair Display’, Georgia, serif;
+font-size: 20px;
+font-weight: 700;
+letter-spacing: 0.3px;
+margin-bottom: 4px;
+color: #FFFFFF !important;
+text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.header p { font-size: 11px; color: #FFFFFF !important; opacity: 0.9; letter-spacing: 0.5px; }
+.alarm-btn {
+position: absolute;
+right: 14px; top: 14px;
+background: rgba(255,255,255,0.2);
+border: 1px solid rgba(255,255,255,0.3);
+color: white;
+border-radius: 12px;
+width: 36px; height: 36px;
+font-size: 16px;
+cursor: pointer;
+backdrop-filter: blur(4px);
+transition: background 0.2s;
+}
+.alarm-btn:hover { background: rgba(255,255,255,0.3); }
+
+/* DOCTOR BANNER */
+.doctor-banner {
+margin: 14px 12px 0;
+background: linear-gradient(135deg, #FFF8EC, #FFF3E0);
+border: 1.5px solid #C4973A;
+border-radius: 16px;
+padding: 14px 14px 14px 16px;
+display: flex;
+gap: 12px;
+align-items: flex-start;
+}
+.doctor-icon { font-size: 28px; flex-shrink: 0; }
+.doctor-title { font-size: 12px; font-weight: 700; color: #8B5E00; margin-bottom: 3px; }
+.doctor-text { font-size: 11px; color: #7A5A20; line-height: 1.5; }
+
+/* CONTENT */
+.content { padding: 12px; }
+
+/* CARDS */
+.card {
+background: rgba(255,255,255,0.92);
+border-radius: 18px;
+padding: 16px;
+margin-bottom: 12px;
+border: 1px solid rgba(74,124,89,0.15);
+box-shadow: 0 2px 16px rgba(74,124,89,0.07);
+}
+.sec-title {
+font-size: 13px;
+color: #2D5A3D;
+margin-bottom: 12px;
+font-weight: 700;
+letter-spacing: 0.3px;
+display: flex;
+align-items: center;
+gap: 7px;
+}
+
+/* LOVE CARD */
+.love-card {
+background: linear-gradient(135deg, #FFF5F4, #FFF0EC);
+border: 1.5px solid rgba(196,118,106,0.25);
+text-align: center;
+}
+.love-card p { margin-top: 8px; color: #7A4A42; font-size: 12px; line-height: 1.7; }
+
+/* MINOXIDIL CARD */
+.mino-card {
+background: linear-gradient(135deg, #F0F7FF, #E8F4FF);
+border: 1.5px solid rgba(70,130,200,0.25);
+border-radius: 16px;
+padding: 14px;
+margin-bottom: 10px;
+}
+.mino-title { font-size: 12px; font-weight: 700; color: #1A4A80; margin-bottom: 4px; }
+.mino-text { font-size: 11px; color: #2A5A90; line-height: 1.6; }
+.mino-badge {
+display: inline-block;
+background: #1A4A80;
+color: white;
+font-size: 10px;
+padding: 2px 8px;
+border-radius: 20px;
+margin-top: 6px;
+font-weight: 700;
+}
+
+/* HABITS */
+.h-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.h-badge {
+background: #EEF4ED;
+color: #4A7C59;
+border-radius: 20px;
+padding: 3px 10px;
+font-size: 11px;
+font-weight: 700;
+border: 1px solid rgba(74,124,89,0.2);
+}
+.h-badge.ok { background: #4A7C59; color: white; }
+.habit-row {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 12px;
+margin-bottom: 6px;
+cursor: pointer;
+border: 1px solid #EEE;
+background: #FAFAF8;
+transition: all 0.2s;
+}
+.habit-row:active { transform: scale(0.98); }
+.habit-row.done { background: #EEF4EB; border-color: #BDD6B5; }
+.h-check {
+width: 20px; height: 20px;
+border-radius: 50%;
+border: 2px solid #CCC;
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0;
+background: white;
+font-size: 10px; color: white;
+transition: all 0.2s;
+}
+.h-check.done { background: #4A7C59; border-color: #4A7C59; }
+.h-text { font-size: 12px; color: #444; flex: 1; }
+.h-text.done { text-decoration: line-through; color: #8BA888; opacity: 0.8; }
+.done-msg { text-align: center; margin-top: 10px; font-size: 13px; color: #4A7C59; font-weight: 700; }
+
+/* PRODUCTS */
+.prod-item {
+margin-bottom: 8px;
+padding: 10px 12px;
+background: #F5FBF3;
+border-radius: 12px;
+border: 1px solid #D4EAD0;
+display: flex;
+gap: 10px;
+align-items: center;
+}
+.prod-name { font-weight: 700; font-size: 12px; color: #2D5A3D; }
+.prod-desc { font-size: 11px; color: #666; margin-top: 2px; }
+.prod-tag {
+background: #4A7C59;
+color: white;
+font-size: 9px;
+padding: 2px 6px;
+border-radius: 8px;
+font-weight: 700;
+white-space: nowrap;
+}
+
+/* TABS */
+.m-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+.m-tab {
+flex: 1;
+padding: 8px 4px;
+border-radius: 12px;
+border: 1.5px solid #DDD;
+background: white;
+color: #888;
+cursor: pointer;
+font-size: 11px;
+font-weight: 700;
+min-width: 52px;
+transition: all 0.2s;
+font-family: ‘Nunito’, sans-serif;
+}
+
+/* MONTH OVERVIEW */
+.m-row {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 12px;
+margin-bottom: 7px;
+cursor: pointer;
+transition: transform 0.15s;
+}
+.m-row:active { transform: scale(0.98); }
+.m-hdr {
+border-radius: 16px;
+padding: 14px;
+margin-bottom: 12px;
+text-align: center;
+}
+.m-hdr h2 { font-family: ‘Playfair Display’, serif; font-size: 17px; margin: 5px 0 2px; }
+.m-hdr p { font-size: 11px; color: #666; margin-top: 3px; }
+
+/* TREATMENTS */
+.t-card {
+background: white;
+border-radius: 14px;
+margin-bottom: 8px;
+border: 1px solid #EEE;
+overflow: hidden;
+box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+}
+.t-card.done { border-color: #4A7C59; }
+.t-hdr { display: flex; align-items: center; gap: 10px; padding: 12px 14px; cursor: pointer; }
+.t-name { font-weight: 700; color: #333; font-size: 12px; }
+.t-day { font-size: 11px; color: #999; margin-top: 1px; }
+.t-chk {
+width: 24px; height: 24px;
+border-radius: 50%;
+border: 2px solid #CCC;
+display: flex; align-items: center; justify-content: center;
+cursor: pointer;
+background: white;
+font-size: 11px; color: white;
+margin-right: 4px;
+flex-shrink: 0;
+transition: all 0.2s;
+}
+.t-body { padding: 0 14px 14px; border-top: 1px solid #F5F5F5; }
+.step-l { font-size: 11px; font-weight: 700; color: #555; margin: 10px 0 7px; }
+.step-row { display: flex; gap: 10px; margin-bottom: 8px; }
+.step-n {
+width: 20px; height: 20px;
+border-radius: 50%;
+color: white;
+display: flex; align-items: center; justify-content: center;
+font-size: 9px;
+font-weight: 700;
+flex-shrink: 0;
+}
+.step-t { font-size: 12px; color: #444; line-height: 1.5; }
+.done-btn {
+margin-top: 10px;
+padding: 8px;
+border-radius: 10px;
+text-align: center;
+cursor: pointer;
+font-size: 12px;
+font-weight: 700;
+border: none;
+width: 100%;
+font-family: ‘Nunito’, sans-serif;
+transition: all 0.2s;
+}
+
+/* FOOD */
+.f-row {
+display: flex;
+align-items: center;
+gap: 10px;
+padding: 9px 12px;
+border-radius: 12px;
+margin-bottom: 7px;
+}
+.f-name { font-weight: 700; font-size: 12px; }
+.f-why { font-size: 11px; color: #666; margin-top: 1px; }
+
+/* TIMELINE */
+.tl-item { display: flex; gap: 12px; margin-bottom: 10px; align-items: flex-start; }
+.tl-dot { display: flex; flex-direction: column; align-items: center; }
+.tl-c {
+width: 32px; height: 32px;
+border-radius: 50%;
+color: white;
+display: flex; align-items: center; justify-content: center;
+font-weight: 700;
+font-size: 11px;
+flex-shrink: 0;
+}
+.tl-l { width: 2px; height: 14px; background: #E0E0E0; margin-top: 3px; }
+
+/* MOTIVATION */
+.moti {
+background: linear-gradient(160deg, #2D5A3D, #4A7C59);
+border-radius: 18px;
+padding: 20px 18px;
+color: white;
+text-align: center;
+margin-bottom: 12px;
+position: relative;
+overflow: hidden;
+}
+.moti::before {
+content: ‘’;
+position: absolute;
+top: -20px; right: -20px;
+width: 90px; height: 90px;
+border-radius: 50%;
+background: rgba(255,255,255,0.06);
+}
+.moti h3 { font-family: ‘Playfair Display’, serif; margin: 8px 0 6px; font-size: 15px; }
+.moti p { font-size: 12px; line-height: 1.7; opacity: 0.94; }
+
+/* TIPS */
+.tip-row {
+display: flex;
+gap: 10px;
+padding: 10px 12px;
+border-radius: 12px;
+margin-bottom: 7px;
+background: #F8FBF7;
+border: 1px solid #DFF0DA;
+}
+.tip-t { font-size: 12px; color: #444; line-height: 1.5; }
+
+/* TAB BAR */
+.tab-bar {
+position: fixed;
+bottom: 0;
+left: 50%; transform: translateX(-50%);
+width: 100%; max-width: 480px;
+background: rgba(255,255,255,0.97);
+border-top: 1px solid #EDEDED;
+display: flex;
+z-index: 100;
+backdrop-filter: blur(10px);
+padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.tab-btn {
+flex: 1;
+padding: 10px 4px 7px;
+background: none;
+border: none;
+cursor: pointer;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 2px;
+}
+.t-icon { font-size: 18px; }
+.t-lbl { font-size: 10px; color: #BBB; font-family: ‘Nunito’, sans-serif; font-weight: 600; }
+.t-lbl.active { color: #4A7C59; }
+.t-ind { width: 18px; height: 2.5px; background: #4A7C59; border-radius: 2px; }
+
+/* MODAL */
+.modal {
+position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0,0,0,0.55);
+z-index: 200;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 16px;
+backdrop-filter: blur(4px);
+}
+.modal.hidden { display: none !important; }
+.modal-box {
+background: white;
+border-radius: 22px;
+padding: 22px;
+width: 100%;
+max-width: 400px;
+max-height: 75vh;
+overflow-y: auto;
+box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.modal-box h2 { font-family: ‘Playfair Display’, serif; font-size: 17px; color: #2D5A3D; margin-bottom: 8px; font-weight: 700; text-align: center; }
+.modal-desc { font-size: 11px; color: #888; text-align: center; margin-bottom: 14px; }
+.alarm-in { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.alarm-in input { padding: 8px; border: 1.5px solid #DDD; border-radius: 10px; font-size: 12px; font-family: ‘Nunito’, sans-serif; }
+.alarm-in input[type=“time”] { flex: 1; }
+.alarm-in input[type=“text”] { flex: 1.5; }
+.alarm-tog {
+width: 44px; padding: 6px;
+border: none; border-radius: 10px;
+background: #DDD; color: #666;
+font-weight: 700; cursor: pointer;
+font-size: 11px;
+font-family: ‘Nunito’, sans-serif;
+}
+.alarm-tog.on { background: #4A7C59; color: white; }
+.btn-sv {
+width: 100%; padding: 11px;
+background: linear-gradient(135deg, #2D5A3D, #4A7C59);
+color: white; border: none;
+border-radius: 14px; font-size: 13px; font-weight: 700;
+cursor: pointer; margin-top: 14px;
+font-family: ‘Nunito’, sans-serif;
+}
+.btn-cls {
+width: 100%; padding: 9px;
+background: #F5F5F5; color: #666;
+border: none; border-radius: 14px;
+font-size: 12px; cursor: pointer; margin-top: 8px;
+font-family: ‘Nunito’, sans-serif;
+}
+
+/* NOTIFICATION */
+.notif {
+position: fixed; top: 16px;
+left: 50%; transform: translateX(-50%);
+background: #2D5A3D;
+color: white;
+padding: 14px 20px;
+border-radius: 16px;
+z-index: 300;
+text-align: center;
+max-width: 340px;
+box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+animation: slideDown 0.3s ease;
+}
+@keyframes slideDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+.notif.hidden { display: none !important; }
+.notif-t { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.notif-m { font-size: 12px; margin-bottom: 9px; opacity: 0.9; }
+.notif-b {
+background: rgba(255,255,255,0.2);
+border: 1px solid rgba(255,255,255,0.3);
+color: white; padding: 5px 14px;
+border-radius: 8px; cursor: pointer;
+font-size: 11px; font-family: ‘Nunito’, sans-serif;
+}
+.hidden { display: none !important; }
+
+/* SPECIAL STYLES */
+.warn-box {
+background: #FFF8EC;
+border: 1.5px solid #F0C060;
+border-radius: 12px;
+padding: 10px 12px;
+margin-top: 8px;
+font-size: 11px;
+color: #8B6000;
+line-height: 1.6;
+}
+.vit-row {
+display: flex; align-items: center; gap: 10px;
+padding: 9px 12px; border-radius: 12px; margin-bottom: 6px;
+background: #F0F7FF; border: 1px solid #CCE0FF;
+}
+.vit-name { font-weight: 700; font-size: 12px; color: #1A4A80; }
+.vit-why { font-size: 11px; color: #3A6A90; margin-top: 1px; }
+</style>
+
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <span class="header-emoji">🌿</span>
+    <h1>የፀጉር እቅድ</h1>
+    <p>4 ወር ሙሉ ፕሮግራም — ሳይንሳዊ + ተፈጥሮ</p>
+    <button class="alarm-btn" onclick="openAlarm()">🔔</button>
+  </div>
+
+  <div class="content">
+    <div id="tab-home">
+      <div class="card love-card">
+        <div style="font-size:26px;margin-bottom:6px;">🥹💕</div>
+        <p>እናቴ — ፀጉርሽ አሁንም ሊደነቅ ይችላል። <strong>ፍቅር + ትዕግስት + ሳይንስ</strong> አብረው ሲሰሩ ተአምር ይሰራሉ። ፎሊከሎቹ ገና አሉ — ትኩረት ሲያገኙ ይነቃሉ! 🙏</p>
+      </div>
+
+  <div class="card">
+    <div class="h-hdr">
+      <div class="sec-title" style="margin-bottom:0;">📋 ዛሬ የሚደረጉ ልምዶች</div>
+      <div class="h-badge" id="h-badge">0/11</div>
+    </div>
+    <div id="habits-list"></div>
+    <div class="done-msg hidden" id="done-msg">🎉 ሁሉም ተጠናቅቀዋል! አስደናቂ!</div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">🛢️ የሚጠቀሙባቸው ዘይቶች</div>
+    <div id="prod-list"></div>
+  </div>
+
+  <div class="card">
+    <div class="sec-title">✨ Kibe Mix አሰራር</div>
+    <div style="background:linear-gradient(135deg,#FFF8EC,#FFF3E0);border:1.5px solid #D4A850;border-radius:14px;padding:14px;">
+      <div style="font-weight:700;font-size:13px;color:#7A5000;margin-bottom:10px;">🧪 ቅጥፈት (Recipe)</div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#5A3A00;"><span>🫙</span> <span><strong>ቅቤ</strong> — 2 ማንኪያ (ቤዝ)</span></div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#5A3A00;"><span>🟤</span> <span><strong>ካስቶር ዘይት</strong> — 1 ማንኪያ (ወፍራምነት)</span></div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#5A3A00;"><span>🌿</span> <span><strong>ሮዝማሪ ዘይት</strong> — 10 ጠብታ (ዕድገት)</span></div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#5A3A00;"><span>🧅</span> <span><strong>ሙሰ ጭማቂ</strong> — 1 ማንኪያ (ፎሊከሎ ማንቃት)</span></div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:12px;color:#5A3A00;"><span>🧄</span> <span><strong>ነጭ ሽንኩርት</strong> — 2 ጥርስ (ፀረ-ተሕዋስ)</span></div>
+      </div>
+      <div style="margin-top:10px;background:rgba(196,151,58,0.12);border-radius:8px;padding:8px;font-size:11px;color:#7A5000;line-height:1.6;">
+        <strong>አሰራር:</strong> ሁሉንም ቀላቅሉ → ቀስ አሞቁ → ወደ ዕቃ አስቀምጡ → ቀዝቅዞ ሲጠናቀቅ ፍሪጅ ያስቀምጡ። 3 ሳምንት ይቆያሉ።
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="month-ovr"></div>
+  </div>
+</div>
+
+<div id="tab-plan" class="hidden">
+  <div class="m-tabs" id="m-tabs"></div>
+  <div id="m-detail"></div>
+</div>
+
+<div id="tab-food" class="hidden">
+  <div class="card">
+    <div class="sec-title">💊 አስፈላጊ ቫይታሚኖች</div>
+    <div id="vitamins-list"></div>
+    <div class="warn-box">⚠️ ቫይታሚኖች ከመጠቀምዎ በፊት ሐኪም ያማክሩ</div>
+  </div>
+  <div class="card">
+    <div class="sec-title">✅ ፀጉርን የሚያሳድጉ ምግቦች</div>
+    <div id="foods-eat"></div>
+  </div>
+  <div class="card" style="border-color:rgba(196,118,106,0.3);">
+    <div class="sec-title" style="color:#A83A3A;">❌ ይወሰዱ ያሉ ምግቦች</div>
+    <div id="foods-avd"></div>
+  </div>
+</div>
+
+<div id="tab-prog" class="hidden">
+  <div class="card">
+    <div class="sec-title">📈 የሚጠበቀው ውጤት</div>
+    <div id="timeline"></div>
+  </div>
+  <div class="moti">
+    <div style="font-size:30px;margin-bottom:8px;">🌺</div>
+    <h3>ለእናቴ መልእክት</h3>
+    <p>ፀጉርሽ ብዙ ዓመት ታግሷል። ሕክምናው ለራስሽ የምታደርጊው ፍቅር ነው። ፎሊከሎቹ ያኔ ያዩትን ያስታውሳሉ — እንክብካቤ ሲያገኙ ይነቃሉ። አሁን ሳይንስ + ተፈጥሮ አብረው ለሺ ቆምተዋል! 💕</p>
+  </div>
+  <div class="card">
+    <div class="sec-title">🚨 ፀጉር ጥብቅ ያለ (Tangling) ሕክምና</div>
+    <div id="tangle-tips"></div>
+  </div>
+  <div class="card">
+    <div class="sec-title">💡 አስፈላጊ ምክሮች</div>
+    <div id="tips-list"></div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn" onclick="switchTab('home')">
+      <span class="t-icon">🏠</span>
+      <span class="t-lbl active" id="lbl-h">ቤት</span>
+      <div class="t-ind" id="ind-h"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('plan')">
+      <span class="t-icon">📅</span>
+      <span class="t-lbl" id="lbl-p">እቅድ</span>
+      <div class="t-ind hidden" id="ind-p"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('food')">
+      <span class="t-icon">🥗</span>
+      <span class="t-lbl" id="lbl-f">ምግብ</span>
+      <div class="t-ind hidden" id="ind-f"></div>
+    </button>
+    <button class="tab-btn" onclick="switchTab('prog')">
+      <span class="t-icon">📈</span>
+      <span class="t-lbl" id="lbl-g">እድገት</span>
+      <div class="t-ind hidden" id="ind-g"></div>
+    </button>
+  </div>
+</div>
+
+<div class="modal hidden" id="alarm-modal">
+  <div class="modal-box">
+    <h2>🔔 ማንቂያ ያስቀምጡ</h2>
+    <div class="modal-desc">ሕክምናው ጊዜ ሲደርስ ማሳወቂያ ይላካሉ</div>
+    <div id="alarm-slots"></div>
+    <button class="btn-sv" onclick="saveAlarms()">💾 ሰምር</button>
+    <button class="btn-cls" onclick="closeAlarm()">ዝጋ</button>
+  </div>
+</div>
+
+<div class="notif hidden" id="notification">
+  <div class="notif-t" id="notif-t">⏰ ሕክምና ጊዜ!</div>
+  <div class="notif-m" id="notif-m">ዛሬ ያቀዱትን ሕክምና አይርሱ 🌿</div>
+  <button class="notif-b" onclick="closeNotif()">እሺ</button>
+</div>
+
+<script>
+var PRODUCTS = [
+  { name: "Rosemary ዘይት (Alecrim)", desc: "ሚኖክሲዲል 2% ጋር እኩል ሆኖ ተረጋግጧል — ፀጉር ወፍራም", emoji: "🟤", tag: "ሳይንሳዊ" },
+  { name: "Leaf ፀጉር ዕድገት ዘይት", desc: "አስፈላጊ ማዕድናት — ዕድገት ማነሳሳ", emoji: "🟢", tag: "ዕለታዊ" },
+  { name: "Valera ሮዝማሪ ሚንት", desc: "ባዮቲን ያለው — ዕለታዊ ሕክምና", emoji: "🟩", tag: "ዕለታዊ" },
+  { name: "ኮኮናት ዘይት", desc: "ጥልቅ ማንጠባጠቢያ — ፀጉር ሰብሪት", emoji: "🥥", tag: "ሰብሪት" },
+  { name: "ቅቤ ዘይት", desc: "ወፍራምነት ሕክምና", emoji: "🫙", tag: "ሰብሪት" },
+  { name: "ጥቁር ዘር ዘይት", desc: "ኃይለኛ ፀረ-እብጠት — ፎሊከሎች ማንቃት", emoji: "🖤", tag: "ሳይንሳዊ" },
+  { name: "አሎ ቬራ ጄል", desc: "ራስ ቆዳ ማረጋጋት — ፀጉር ለስላሳ ማድረጊያ", emoji: "💚", tag: "አዲስ" },
+  { name: "Kibe Mix (ቅቤ+ካስቶር+ሮዝማሪ+ሙሰ+ነጭ ሽንኩርት)", desc: "ኃይለኛ ጥምር ሕክምና — ዕድገት + ወፍራምነት + ፎሊከሎች ማንቃት", emoji: "✨", tag: "ልዩ" }
+];
+
+var MONTHS = [
+  { id: 1, title: "ወር 1", sub: "ማጽዳት + ሚኖክሲዲል መጀመር", color: "#4A7C59", light: "#EEF6F0", emoji: "🌱",
+    goal: "ሐኪም ይሂዱ፣ ሚኖክሲዲል ይጀምሩ፣ ራስ ቆዳ ያጸዱ",
+    note: "ሚኖክሲዲል ጠዋት + ምሽት ይቀቡ ሁሉም ቀናት",
+    treatments: [
+      { day: "ሰኞ", name: "Rosemary + Leaf ሌሊት", emoji: "🟤", steps: [
+        "10 ጠብታ Rosemary + 10 ጠብታ Leaf ዘይት ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "10 ደቂቃ ቀስ ብሎ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ (sulfate-free)"
+      ]},
+      { day: "ረቡዕ", name: "Kibe Mix ሕክምና", emoji: "✨", steps: [
+        "Kibe Mix ያዘጋጁ: ቅቤ + ካስቶር ዘይት + ሮዝማሪ ዘይት + ሙሰ ጭማቂ + ነጭ ሽንኩርት",
+        "ሁሉንም ቀላቅሉ እና ቀስ አሞቁ",
+        "ወደ ራስ ቆዳ ቀጥታ ይቀቡ",
+        "10 ደቂቃ ቀስ ብሎ ያሳጅሩ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ (sulfate-free)"
+      ]},
+      { day: "አርብ", name: "ኮኮናት ጥልቅ ሰብሪት", emoji: "🥥", steps: [
+        "3 ማንኪያ ኮኮናት ዘይት ቀስ አሞቁ",
+        "ወደ ፀጉር ሙሉ ይቀቡ (ሥር ሳይቀር)",
+        "20 ደቂቃ ማሳጅ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ 2x ይታጠቡ"
+      ]},
+      { day: "እሁድ", name: "ቀላል አሎ ቬራ ቀን", emoji: "😌", steps: [
+        "አሎ ቬራ ጄል ብቻ ይቀቡ",
+        "ምንም ከባድ ሕክምና አይደለም",
+        "ራስ ቆዳ ያርፍ",
+        "ሚኖክሲዲል ግን ይቀጥሉ!"
+      ]}
+    ]
+  },
+  { id: 2, title: "ወር 2", sub: "ማጎልበት + ጥቁር ዘር", color: "#B07D4A", light: "#F5EDE0", emoji: "🌿",
+    goal: "ጥልቅ ማንጠባጠቢያ፣ ወፍራምነት",
+    note: "ወር 1 ቀጥሉ + ጥቁር ዘር ይጨምሩ",
+    treatments: [
+      { day: "ሰኞ", name: "ጥቁር ዘር + ቅቤ ዘይት", emoji: "🖤", steps: [
+        "2 ማንኪያ ቅቤ + 5 ጠብታ ጥቁር ዘር ቀላቅሉ",
+        "ወደ ራስ ቆዳ ይቀቡ",
+        "15 ደቂቃ ማሳጅ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ"
+      ]},
+      { day: "ረቡዕ", name: "Kibe Mix ሕክምና", emoji: "✨", steps: [
+        "Kibe Mix ያዘጋጁ: ቅቤ + ካስቶር ዘይት + ሮዝማሪ + ሙሰ ጭማቂ + ነጭ ሽንኩርት",
+        "ሁሉንም ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "10 ደቂቃ ማሳጅ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ"
+      ]},
+      { day: "አርብ", name: "Rosemary + ጥቁር ዘር + Leaf", emoji: "💫", steps: [
+        "10 ጠብታ Rosemary + 5 ጠብታ ጥቁር ዘር + 10 ጠብታ Leaf",
+        "ወደ ራስ ቆዳ ይቀቡ",
+        "ሌሊቱን ሙሉ ይተዉ"
+      ]},
+      { day: "እሁድ", name: "ሞቅ ያለ ፎጣ ሕክምና", emoji: "♨️", steps: [
+        "ሞቅ ያለ ውሃ ፎጣ ወደ ጭንቅላት 20 ደቂቃ",
+        "Valera ዘይት ከዚያ ይቀቡ",
+        "30 ደቂቃ ተወቁ",
+        "ሻምፖ ይታጠቡ"
+      ]}
+    ]
+  },
+  { id: 3, title: "ወር 3", sub: "ጠንካራ ዕድገት", color: "#5B7FA6", light: "#E0EAF5", emoji: "🌸",
+    goal: "አዲስ ዕድገት ማፋጠን — ውጤቱ ይታያል",
+    note: "ዕለታዊ ማሳጅ 10 ደቂቃ — ሚኖክሲዲል ይቀጥሉ",
+    treatments: [
+      { day: "ሰኞ", name: "ጥቁር ዘር + ቅቤ ዘይት ጠንካራ", emoji: "🖤", steps: [
+        "2 ማንኪያ ቅቤ + ጥቁር ዘር ዘይት ቀላቅሉ",
+        "20 ደቂቃ ማሳጅ",
+        "ሌሊቱን ሙሉ ይተዉ"
+      ]},
+      { day: "ረቡዕ", name: "Kibe Mix ጠንካራ ሕክምና", emoji: "✨", steps: [
+        "Kibe Mix ቀላቅሉ (ቅቤ + ካስቶር + ሮዝማሪ + ሙሰ + ነጭ ሽንኩርት)",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ጠዋት ሻምፖ ይታጠቡ"
+      ]},
+      { day: "አርብ", name: "ኦሊቭ + ጥቁር ዘር + Leaf", emoji: "🧅", steps: [
+        "ኦሊቭ ዘይት + ጥቁር ዘር + Leaf ቀላቅሉ",
+        "ወደ ራስ ቆዳ ይቀቡ",
+        "1 ሰዓት ይተዉ",
+        "ሻምፖ ይታጠቡ"
+      ]},
+      { day: "እሁድ", name: "ኮኮናት + Leaf ማሳጅ", emoji: "🥥", steps: [
+        "ኮኮናት + Leaf ቀላቅሉ",
+        "30 ደቂቃ ቀስ ብሎ ማሳጅ",
+        "ሻምፖ ይታጠቡ"
+      ]}
+    ]
+  },
+  { id: 4, title: "ወር 4", sub: "ጠብቆ ማቆየት", color: "#9B6B9B", light: "#F0E4F0", emoji: "💜",
+    goal: "ውጤቱን ማጠናከር — ቆንጆ ፀጉር!",
+    note: "አሁን ዕድገቱ ይታያል! ምንም አታቁሙ!",
+    treatments: [
+      { day: "ሰኞ", name: "Rosemary + Valera ሌሊት", emoji: "🌿", steps: [
+        "10 ጠብታ Rosemary + Valera ቀላቅሉ",
+        "ወደ ራስ ቆዳ ይቀቡ",
+        "ሌሊቱን ሙሉ ይተዉ"
+      ]},
+      { day: "ረቡዕ", name: "Kibe Mix + ጥቁር ዘር", emoji: "✨", steps: [
+        "Kibe Mix + ጥቁር ዘር ዘይት ቀላቅሉ",
+        "ወደ ራስ ቆዳ ቀቡ",
+        "1 ሰዓት ይተዉ",
+        "ሻምፖ ይታጠቡ",
+        "ኃይለኛ ሕክምና!"
+      ]},
+      { day: "አርብ", name: "ሁሉም ዘይቶች ጥምር", emoji: "✨", steps: [
+        "Rosemary + Leaf + ቅቤ + ኮኮናት ቀላቅሉ",
+        "ሌሊቱን ሙሉ ይተዉ",
+        "ኃይለኛ ሰብሪት ሕክምና!"
+      ]},
+      { day: "እሁድ", name: "አሎ ቬራ + Valera ቀላል ቀን", emoji: "🌸", steps: [
+        "አሎ ቬራ + Valera ቀላቅሉ",
+        "30 ደቂቃ ማሳጅ",
+        "ሕክምናው 4 ወር ሞላ! 🎉"
+      ]}
+    ]
+  }
+];
+
+var HABITS = [
+  { id: "mino", emoji: "💊", text: "ሚኖክሲዲል 2% — ጠዋት ቀቡ (ሐኪም ካዘዘ)" },
+  { id: "mino2", emoji: "🌙", text: "ሚኖክሲዲል 2% — ምሽት ቀቡ" },
+  { id: "w", emoji: "💧", text: "8-10 ብርጭቆ ውሃ ይጠጡ" },
+  { id: "m", emoji: "🙌", text: "10 ደቂቃ ማሳጅ" },
+  { id: "s", emoji: "😴", text: "7-8 ሰዓት ሳቲን ትራስ ይጠቀሙ" },
+  { id: "c", emoji: "🪮", text: "ሰፊ ጥርስ ፍ梳 ቀስ ብሎ ማበጃጀት" },
+  { id: "e", emoji: "🚶", text: "ቀላል ስፖርት — ደም ዝውውር" },
+  { id: "st", emoji: "🧘", text: "ጭንቀት ይቀንሱ" },
+  { id: "sup", emoji: "💊", text: "ቫይታሚን ዲ + ቫይታሚን ቢ7" },
+  { id: "kibe", emoji: "✨", text: "Kibe Mix ሕክምና (ሰኞ/ረቡዕ/አርብ)" },
+];
+
+var VITAMINS = [
+  { name: "ቫይታሚን ዲ", why: "ፎሊከሎቹ ለመስራት ያስፈልጋቸዋል — ብዙ ሴቶች ያጥራቸዋል", emoji: "☀️" },
+  { name: "ብረት (Iron)", why: "ፀጉር ዕድገት ለደም — ሐኪም ይለካ", emoji: "🔴" },
+  { name: "ባዮቲን (Biotin B7)", why: "ኬራቲን ለማምረት — ፀጉር ጠንካራ", emoji: "💛" },
+  { name: "ዚንክ", why: "ፎሊከሎቹ ጤናማ ለማድረግ", emoji: "⚪" },
+  { name: "ኦሜጋ-3", why: "ራስ ቆዳ ጤና + ፀጉር ብሩህ", emoji: "🐟" }
+];
+
+var FOODS_EAT = [
+  { name: "እንቁላል", why: "ባዮቲን + ፕሮቲን — ፀጉር ዋና ምግብ", emoji: "🥚" },
+  { name: "ስፒናች", why: "ብረት + ቫይታሚን ኤ", emoji: "🥬" },
+  { name: "ዓሳ (ሳልሞን)", why: "ኦሜጋ-3 — ፀጉር ብሩህ", emoji: "🐟" },
+  { name: "ምስር", why: "ፕሮቲን + ብረት", emoji: "🫘" },
+  { name: "ለውዝ", why: "ዚንክ + ቫይታሚን ኢ", emoji: "🥜" },
+  { name: "አቮካዶ", why: "ጤናማ ቅባት — ፀጉር ለስላሳ", emoji: "🥑" },
+  { name: "ቤሪ", why: "ቫይታሚን ሲ — ኮላጅን", emoji: "🍓" },
+  { name: "ካሮት", why: "ቤታ ካሮቲን — ቫይታሚን ኤ", emoji: "🥕" },
+  { name: "ዶሮ ሥጋ", why: "ፕሮቲን — ፀጉር ቁሳቁስ", emoji: "🍗" }
+];
+
+var FOODS_AVOID = [
+  { name: "ስኳር + ጣፋጭ — ፎሊከሎቹ ይጎዳሉ", emoji: "🍬" },
+  { name: "ፈሰሰ ምግብ — ፀጉር ያስረዝሙ", emoji: "🍟" },
+  { name: "አልኮል — ዚንክ ያሟጥጣል", emoji: "🚫" },
+  { name: "ብዙ ጨው", emoji: "🧂" },
+  { name: "ድንገተኛ ዳይቶ — ፀጉር ያረፍዳሉ", emoji: "⚠️" }
+];
+
+var TIMELINE = [
+  { p: "ሳምንት 1-2", r: "ሚኖክሲዲል ይጀምሩ — ራስ ቆዳ ይሞቃል" },
+  { p: "ወር 1", r: "ፀጉር መርገፍ ሊጨምር ይችላል (መደበኛ ነው!)" },
+  { p: "ወር 2", r: "ፀጉር መርገፍ ቀንሷል — አዲስ ወጋ ይጀምራሉ" },
+  { p: "ወር 3", r: "አዲስ ፀጉር ይወጣሉ — ዕድገት ይታያሉ" },
+  { p: "ወር 4", r: "ሙሉ ሕክምና ውጤት — ፀጉር ቆነጆ ነው!" },
+  { p: "ወር 5-6", r: "ወፍራምነት ይቀጥላሉ — አያቁሙ" }
+];
+
+var TANGLE_TIPS = [
+  { emoji: "🪮", text: "ሁሌ ሰፊ ጥርስ ፍ梳 ብቻ — ቀስ ብሎ ከጫፍ ወደ ሥር ያስቡ" },
+  { emoji: "💧", text: "ፀጉር ደረቅ ሲሆን አይ梳ቁ — ምንም ጊዜ ደረቅ አይ梳ቁ" },
+  { emoji: "🧴", text: "Leave-in conditioner ሁሌ ይጠቀሙ — ከ梳ቃ በፊት" },
+  { emoji: "🌙", text: "ሳቲን ወይም ሐር ሻሽ ሌሊት ይልበሱ — ፀጉር አይተሳሰር" },
+  { emoji: "🚫", text: "ጠባብ ፎቅ (tight buns/braids) አያቁሙ — ፎሊከሎቹ ይጎዳሉ" },
+  { emoji: "✂️", text: "ሁሉ 6-8 ሳምንት ጠቃ ያድርጉ — ጫፍ ሲሰበር ያስወግዳሉ" }
+];
+
+var TIPS = [
+  { emoji: "🧘", text: "ጭንቀት ይቀንሱ — ኮርቲሶል ፎሊከሎቹ ይጎዳዋቸዋል" },
+  { emoji: "📸", text: "ሁሉ ሳምንት ፎቶ ይነሱ — ውጤቱን ይከታተሉ" },
+  { emoji: "💆", text: "ዕለታዊ ማሳጅ — ደም ወደ ፎሊከሎቹ ይደርሳሉ" },
+  { emoji: "🌡️", text: "ሙቅ ፎርሞ (heat styling) ምንም — ፀጉር ይሰብሩ" },
+  { emoji: "⏳", text: "ትዕግስት 4-6 ወር — ሚኖክሲዲል ጊዜ ይወስዳሉ" },
+  { emoji: "📸", text: "ሁሉ ሳምንት ፎቶ ይነሱ — ውጤቱን ይከታተሉ" }
+];
+
+var hState = {}, tState = {}, aState = [
+  { time: "07:00", label: "ጠዋት — ሚኖክሲዲል + ዘይት!", on: true },
+  { time: "20:00", label: "ምሽት — ሚኖክሲዲል + ሕክምና!", on: true }
+];
+
+try { hState = JSON.parse(localStorage.getItem('h_state2') || '{}'); } catch(e){}
+try { tState = JSON.parse(localStorage.getItem('t_state2') || '{}'); } catch(e){}
+try { var as = localStorage.getItem('a_state2'); if(as) aState = JSON.parse(as); } catch(e){}
+
+var cTab = 'home', cMonth = 1, exp = null, lAlert = '';
+
+function save() {
+  try {
+    localStorage.setItem('h_state2', JSON.stringify(hState));
+    localStorage.setItem('t_state2', JSON.stringify(tState));
+    localStorage.setItem('a_state2', JSON.stringify(aState));
+  } catch(e){}
+}
+
+function switchTab(t) {
+  var map = { home: 'h', plan: 'p', food: 'f', prog: 'g' };
+  ['home','plan','food','prog'].forEach(function(id) {
+    document.getElementById('tab-'+id).classList.toggle('hidden', id !== t);
+    var k = map[id];
+    document.getElementById('lbl-'+k).classList.toggle('active', id === t);
+    document.getElementById('ind-'+k).classList.toggle('hidden', id !== t);
+  });
+  cTab = t;
+}
+
+function toggleH(id) { hState[id] = !hState[id]; save(); renderH(); }
+
+function renderH() {
+  var d = HABITS.filter(function(h){ return hState[h.id]; }).length;
+  var total = HABITS.length;
+  document.getElementById('h-badge').textContent = d+'/'+total;
+  document.getElementById('h-badge').className = 'h-badge'+(d===total?' ok':'');
+  document.getElementById('habits-list').innerHTML = HABITS.map(function(h){
+    var ok = hState[h.id];
+    return '<div class="habit-row'+(ok?' done':'')+'" onclick="toggleH(\''+h.id+'\')">'+
+      '<div class="h-check'+(ok?' done':'')+'">'+( ok?'✓':'')+' </div>'+
+      '<span style="font-size:15px">'+h.emoji+'</span>'+
+      '<span class="h-text'+(ok?' done':'')+'">'+h.text+'</span>'+
+    '</div>';
+  }).join('');
+  document.getElementById('done-msg').classList.toggle('hidden', d !== total);
+}
+
+function renderProd() {
+  document.getElementById('prod-list').innerHTML = PRODUCTS.map(function(p){
+    return '<div class="prod-item">'+
+      '<span style="font-size:20px;flex-shrink:0">'+p.emoji+'</span>'+
+      '<div style="flex:1">'+
+        '<div class="prod-name">'+p.name+'</div>'+
+        '<div class="prod-desc">'+p.desc+'</div>'+
+      '</div>'+
+      '<span class="prod-tag">'+p.tag+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+function renderMov() {
+  document.getElementById('month-ovr').innerHTML = MONTHS.map(function(m){
+    return '<div class="m-row" style="background:'+m.light+';border:1px solid '+m.color+'30" onclick="switchTab(\'plan\');selM('+m.id+')">'+
+      '<span style="font-size:22px">'+m.emoji+'</span>'+
+      '<div style="flex:1">'+
+        '<div style="font-weight:700;color:'+m.color+';font-size:12px">'+m.title+' — '+m.sub+'</div>'+
+        '<div style="font-size:10px;color:#777;margin-top:2px">'+m.goal+'</div>'+
+      '</div>'+
+      '<span style="color:'+m.color+';font-size:16px">›</span>'+
+    '</div>';
+  }).join('');
+}
+
+function selM(id) { cMonth = id; renderMtabs(); renderMdet(); }
+
+function renderMtabs() {
+  document.getElementById('m-tabs').innerHTML = MONTHS.map(function(m){
+    var a = m.id===cMonth;
+    return '<button class="m-tab" style="border-color:'+(a?m.color:'#DDD')+';background:'+(a?m.color:'white')+';color:'+(a?'white':'#888')+'" onclick="selM('+m.id+')">'+m.emoji+' ወር'+m.id+'</button>';
+  }).join('');
+}
+
+function togT(key) { tState[key]=!tState[key]; save(); renderMdet(); }
+function togE(key) { exp=exp===key?null:key; renderMdet(); }
+
+function renderMdet() {
+  var m = MONTHS[cMonth-1];
+  var h = '<div class="m-hdr" style="background:'+m.light+';border:1px solid '+m.color+'40">'+
+    '<div style="font-size:28px">'+m.emoji+'</div>'+
+    '<h2 style="color:'+m.color+'">'+m.title+' — '+m.sub+'</h2>'+
+    '<p>🎯 '+m.goal+'</p>'+
+    '<p style="margin-top:5px;font-size:11px;color:'+m.color+';font-weight:700">📌 '+m.note+'</p>'+
+  '</div>';
+  m.treatments.forEach(function(t,idx){
+    var k='m'+m.id+'_t'+idx;
+    var op=exp===k; var d=tState[k];
+    h+='<div class="t-card'+(d?' done':'')+'">'+
+      '<div class="t-hdr" onclick="togE(\''+k+'\')">'+
+        '<span style="font-size:22px">'+t.emoji+'</span>'+
+        '<div style="flex:1">'+
+          '<div class="t-name">'+t.name+'</div>'+
+          '<div class="t-day">📅 '+t.day+'</div>'+
+        '</div>'+
+        '<div class="t-chk" style="background:'+(d?m.color:'white')+';border-color:'+(d?m.color:'#CCC')+'" onclick="event.stopPropagation();togT(\''+k+'\')">'+( d?'✓':'')+' </div>'+
+        '<span style="color:#CCC;font-size:13px">'+(op?'▲':'▼')+'</span>'+
+      '</div>';
+    if(op){
+      h+='<div class="t-body"><div class="step-l">ደረጃዎች:</div>';
+      t.steps.forEach(function(s,si){
+        h+='<div class="step-row"><div class="step-n" style="background:'+m.color+'">'+(si+1)+'</div><span class="step-t">'+s+'</span></div>';
+      });
+      h+='<button class="done-btn" style="background:'+(d?'#EEF4EB':m.light)+';border:1px solid '+m.color+'50;color:'+m.color+'" onclick="togT(\''+k+'\')">'+(d?'✓ ተጠናቅቋል!':'ምልክት ያድርጉ')+'</button></div>';
+    }
+    h+='</div>';
+  });
+  document.getElementById('m-detail').innerHTML = h;
+}
+
+function renderVitamins() {
+  document.getElementById('vitamins-list').innerHTML = VITAMINS.map(function(v){
+    return '<div class="vit-row">'+
+      '<span style="font-size:18px;flex-shrink:0">'+v.emoji+'</span>'+
+      '<div><div class="vit-name">'+v.name+'</div><div class="vit-why">'+v.why+'</div></div>'+
+    '</div>';
+  }).join('');
+}
+
+function renderF() {
+  document.getElementById('foods-eat').innerHTML = FOODS_EAT.map(function(f){
+    return '<div class="f-row" style="background:#F5FBF3;border:1px solid #D4EAD0">'+
+      '<span style="font-size:18px">'+f.emoji+'</span>'+
+      '<div><div class="f-name" style="color:#2D5A27">'+f.name+'</div><div class="f-why">'+f.why+'</div></div>'+
+    '</div>';
+  }).join('');
+  document.getElementById('foods-avd').innerHTML = FOODS_AVOID.map(function(f){
+    return '<div class="f-row" style="background:#FDF2F2;border:1px solid #F5C6C6">'+
+      '<span style="font-size:18px">'+f.emoji+'</span>'+
+      '<span style="font-size:12px;color:#A83A3A;font-weight:700">'+f.name+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+function renderProg() {
+  var cols = ['#4A7C59','#6B8F5E','#8B7A5E','#7A5E8B','#5E7A8B','#8B5E5E'];
+  document.getElementById('timeline').innerHTML = TIMELINE.map(function(t,i){
+    return '<div class="tl-item">'+
+      '<div class="tl-dot">'+
+        '<div class="tl-c" style="background:'+cols[i]+'">'+(i+1)+'</div>'+
+        (i<5?'<div class="tl-l"></div>':'')+
+      '</div>'+
+      '<div><div style="font-weight:700;font-size:12px;color:#333">'+t.p+'</div><div style="font-size:12px;color:#666;margin-top:2px">'+t.r+'</div></div>'+
+    '</div>';
+  }).join('');
+
+  document.getElementById('tangle-tips').innerHTML = TANGLE_TIPS.map(function(t){
+    return '<div class="tip-row" style="background:#FFF8F0;border-color:#F0DDD0">'+
+      '<span style="font-size:16px;flex-shrink:0">'+t.emoji+'</span>'+
+      '<span class="tip-t">'+t.text+'</span>'+
+    '</div>';
+  }).join('');
+
+  document.getElementById('tips-list').innerHTML = TIPS.map(function(t){
+    return '<div class="tip-row">'+
+      '<span style="font-size:16px;flex-shrink:0">'+t.emoji+'</span>'+
+      '<span class="tip-t">'+t.text+'</span>'+
+    '</div>';
+  }).join('');
+}
+
+function openAlarm() {
+  document.getElementById('alarm-modal').classList.remove('hidden');
+  renderAs();
+  if(Notification && Notification.permission==='default') Notification.requestPermission();
+}
+function closeAlarm() { document.getElementById('alarm-modal').classList.add('hidden'); }
+
+function renderAs() {
+  document.getElementById('alarm-slots').innerHTML = aState.map(function(a,i){
+    return '<div class="alarm-in">'+
+      '<input type="time" id="t'+i+'" value="'+a.time+'"/>'+
+      '<input type="text" id="l'+i+'" value="'+a.label+'" placeholder="መልእክት..."/>'+
+      '<button class="alarm-tog '+(a.on?'on':'')+'" onclick="togA('+i+')">'+(a.on?'ሰ':'አ')+'</button>'+
+    '</div>';
+  }).join('');
+}
+
+function togA(i) { aState[i].on=!aState[i].on; renderAs(); }
+
+function saveAlarms() {
+  aState.forEach(function(a,i){
+    a.time=document.getElementById('t'+i).value;
+    a.label=document.getElementById('l'+i).value;
+  });
+  save(); closeAlarm();
+  showNotif('✅ ማንቂያ ሰምሯል!','እናቴ ማሳወቂያ ታገኛለች! 🔔');
+}
+
+function playBeep() {
+  try {
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var osc=ctx.createOscillator(); var g=ctx.createGain();
+    osc.connect(g); g.connect(ctx.destination);
+    osc.frequency.value=800; g.gain.value=0.3;
+    osc.start(); setTimeout(function(){osc.stop();},500);
+  } catch(e){}
+}
+
+function showNotif(t,m) {
+  document.getElementById('notif-t').textContent=t;
+  document.getElementById('notif-m').textContent=m;
+  document.getElementById('notification').classList.remove('hidden');
+  playBeep();
+  setTimeout(closeNotif,6000);
+}
+function closeNotif() { document.getElementById('notification').classList.add('hidden'); }
+
+function chkAlarms() {
+  if(!aState.length) return;
+  var now=new Date();
+  var ts=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  if(ts===lAlert) return;
+  aState.forEach(function(a){
+    if(a.on&&a.time===ts){
+      lAlert=ts;
+      showNotif('⏰ '+a.label,'ሕክምና ጊዜ! 🌿');
+      if(Notification&&Notification.permission==='granted'){
+        new Notification('ፀጉር ሕክምና',{body:a.label});
+      }
+    }
+  });
+}
+
+setInterval(chkAlarms,60000);
+renderH(); renderProd(); renderMov(); renderMtabs(); renderMdet(); renderF(); renderVitamins(); renderProg();
+</script>
+
+</body>
+</html>
